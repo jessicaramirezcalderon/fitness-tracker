@@ -43,7 +43,7 @@ app.get("/exercise", (req, res) => {
         .catch(err => {
             res.json(err);
         });
-});
+});//need to update route to match page
 
 // app.get("/user", (req, res) => {
 //     db.User.find({})
