@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
 
-//const db = require("./models");
+const db = require("./models");
 
 const app = express();
 
@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-//mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { useNewUrlParser: true });
 
 mongoose.connect(
     process.env.MONGODB_URI,
@@ -35,15 +34,16 @@ mongoose.connect(
 //         console.log(message);
 //     });
 
-// app.get("/notes", (req, res) => {
-//     db.Note.find({})
-//         .then(dbNote => {
-//             res.json(dbNote);
-//         })
-//         .catch(err => {
-//             res.json(err);
-//         });
-// });
+app.get("/exercise", (req, res) => {
+    db.Workouts.find({})
+        .populate('exercises')
+        .then(dbWorkouts => {
+            res.json(dbWorkouts);
+        })
+        .catch(err => {
+            res.json(err);
+        });
+});
 
 // app.get("/user", (req, res) => {
 //     db.User.find({})
