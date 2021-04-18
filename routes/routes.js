@@ -5,7 +5,7 @@ const router = express.Router();
 const path = require("path");
 
 
-//front-end routes
+//Front-End Static Routes
 
 router.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "../public/index.html"));
@@ -19,7 +19,22 @@ router.get("/stats", function (req, res) {
     res.sendFile(path.join(__dirname, "../public/stats.html"));
 });
 
+//API Routes
+
+///
+
 router.get("/api/workouts", (req, res) => {
+    db.Workouts.find({})
+        .populate('exercises')
+        .then(dbWorkouts => {
+            res.json(dbWorkouts);
+        })
+        .catch(err => {
+            res.json(err);
+        });
+});
+
+router.get("/api/workouts/range", (req, res) => {
     db.Workouts.find({})
         .populate('exercises')
         .then(dbWorkouts => {
