@@ -12,9 +12,7 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-
-//add routes
-require("./routes/routes.js")(app);
+app.use(require("./routes/routes.js"));
 
 mongoose.connect(
     process.env.MONGODB_URI,

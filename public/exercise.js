@@ -21,8 +21,8 @@ async function initExercise() {
   let workout;
 
   if (location.search.split("=")[1] === undefined) {
-    workout = await API.createWorkout()
-    console.log(workout)
+
+    workout = await API.createWorkout({day: new Date()});
   }
   if (workout) {
     location.search = "?id=" + workout._id;
@@ -119,7 +119,10 @@ async function handleFormSubmit(event) {
   toast.classList.add("success");
 }
 
-function handleToastAnimationEnd() {
+function handleToastAnimationEnd(event) {
+  if (event) {
+    event.preventDefault();
+  }
   toast.removeAttribute("class");
   if (shouldNavigateAway) {
     location.href = "/";
@@ -143,7 +146,7 @@ if (workoutTypeSelect) {
 if (completeButton) {
   completeButton.addEventListener("click", function (event) {
     shouldNavigateAway = true;
-    handleFormSubmit(event);
+    handleToastAnimationEnd(event);
   });
 }
 if (addButton) {
